@@ -33,7 +33,11 @@
 
 <br/>
 
-## 6. 발표 자료
+## 6. 발표 자료 및 데이터
 
+- 발표 자료  
 https://drive.google.com/file/d/11RzQESiiQE40Ko6wUCFMtDZ2B0AX_ngI/view
+
+- 데이터  
+https://drive.google.com/drive/folders/1JhLosohVZVdgDfT44aNN3qAU3Vb48YIx?usp=drive_link
 
