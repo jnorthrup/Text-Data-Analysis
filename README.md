@@ -2,7 +2,7 @@
 
 <br/>
 
-## 1. 배경  목적
+## 1. 배경 및 목적
 
 - 네이버 뉴스 본문 크롤링을 통한 특징 키워드 및 주제 분석
 - 정치 및 법, 기술, 경제, 환경을 중심으로 주요 시사 별 Word Cloud를 통한 특징 키워드 추출 및 LDA를 통한 주제 분석
@@ -22,9 +22,12 @@
 
 <br/>
 
-## 4. 프로젝트 설명
+## 4. 프로젝트 설명 
+<img width="530" alt="텍데분1" src="https://github.com/Ji-eun-Kim/Text-Data-Analytics/assets/124686375/8ecd0c22-ff86-476c-84d1-6b114c25c668"> | <img width="530" alt="텍데분2" src="https://github.com/Ji-eun-Kim/Text-Data-Analytics/assets/124686375/1e79b8af-1965-480c-843e-226631ba4f54"> 
+---|---|
 
-
+<img width="533" alt="텍데분3" src="https://github.com/Ji-eun-Kim/Text-Data-Analytics/assets/124686375/fa577161-e59f-4d56-b2f0-226cfe4b503b"> | <img width="533" alt="텍데분4" src="https://github.com/Ji-eun-Kim/Text-Data-Analytics/assets/124686375/a1c33180-9ff0-4ab5-8bb5-f23ddc32e228"> 
+---|---|
 
 <br/>
 
