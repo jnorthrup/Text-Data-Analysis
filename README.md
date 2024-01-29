@@ -1,6 +1,10 @@
-## 주요 시사 별 Word Cloud를 통한 특징 키워드 추출 및 LDA를 통한 주제 분석 <br>   <정치, 기술, 경제, 환경을 중심으로>
+<h2 align='center'> 주요 시사 별 Word Cloud를 통한 특징 키워드 추출 및 LDA를 통한 주제 분석 </h2>
+<h3 align='center'> [전공] 텍스트데이터분석 Project </h3>
+<h4 align='center'> (2023.05. ~ 2023.06.) </h4> 
 
-<br/>
+![Aqua Lines](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)
+
+&nbsp;
 
 ## 1. 배경 및 목적
 
