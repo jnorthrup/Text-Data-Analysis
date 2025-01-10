@@ -22,21 +22,21 @@ from nltk.tokenize import word_tokenize
 #driver = webdriver.Chrome('D:\MyWorkspace\chromedriver.exe')
 
 
-# # 1. 데이터 수집
+# # 1. Data Collection
 
-# ## <font color= 'red'> 0) BASE CODE <함수 정의, 네이버 뉴스 본문 크롤링>
+# ## <font color= 'red'> 0) BASE CODE <Function Definition, Naver News Article Crawling>
 
 # In[8]:
 
 
 def remove_tag(my_str):
-    ## 태그를 지우는 함수
+    ## Function to remove tags
     p = re.compile('(<([^>]+)>)')
     return p.sub('', my_str)
 
 def sub_html_special_char(my_str):
-    ## 특수문자를 나타내는 &apos;, &quot를 실제 특수문자로 변환
-    p1 = re.compile('&lt;') #lt를 <로 바꿔줘
+    ## Convert special characters represented by &apos;, &quot to actual special characters
+    p1 = re.compile('&lt;') # Convert lt to <
     p2 = re.compile('&gt;')
     p3 = re.compile('&amp;')
     p4 = re.compile('&apos;')
@@ -76,8 +76,8 @@ def getresult(client_id,client_secret,query,n_display,start,sort='sim'):
 # In[10]:
 
 
-#데이터 수집 과정 중 일부는 배민성 학우분과 같이 협업하였습니다.
-#slack에 이수인 학우분이 올려주신 코드도 참고하였습니다.
+# Some parts of the data collection process were collaborated with fellow student Bae Min-sung.
+# The code shared by fellow student Lee Soo-in on Slack was also referenced.
 def search_news_with_link (result):
     article_ids = ['dic_area']
     titles = []
@@ -87,7 +87,7 @@ def search_news_with_link (result):
 
     p = re.compile('https://n.news.naver.com/.+')
     for i, item in enumerate(result):
-        if p.match(item['link']): ## <link>태그의 문자열이 n.news.naver.com/으로 시작하는 결과만 추출
+        if p.match(item['link']): ## Extract only results where the <link> tag string starts with n.news.naver.com/
             title = sub_html_special_char(remove_tag(item['title']))
             link = item['link']
             pubdate = item['pubDate']
@@ -105,9 +105,9 @@ def search_news_with_link (result):
                     break
                 else:
                     contents.append(0)
-                    #연예뉴스와 같은 뉴스들을 수집하지 않기 위해 위와 같은 코드를 작성함
-                    #dic_area가 아닌 본문 id들은 0으로 채워준 후, 모든 데이터 수합 후 삭제함
-                    #데이터 프레임에 추가할 때, 0과 같은 값을 채워주지 않을 경우, 데이터 프레임이 만들어지지 않음(길이 문제 발생)
+                    # To avoid collecting entertainment news and similar articles, the above code was written.
+                    # If the main text id is not dic_area, it is filled with 0 and deleted after collecting all data.
+                    # If the value is not filled with 0 when adding to the dataframe, the dataframe will not be created (length issue).
                 
     result_dict = {'title': titles, 'link': links, 'pubdate': pubdates, 'content': contents}
     df = pd.DataFrame.from_dict(result_dict)
@@ -122,16 +122,16 @@ client_secret = 'uvknoLe1Jq'
 n_display=100
 
 
-# # <font color= 'red'> 1) data crawling - 4 topic 
+# # <font color= 'red'> 1) Data Crawling - 4 Topics 
 
-# ### 1. 정치 및 법(선거, 정부, 법, 검찰, 살인)  
-# ### 2. 기술(빅데이터, AI, 자율주행, 가상현실, GPT, 로봇)  
-# ### 3. 경제(투자, 기업, 부자, 주식, 실업, 보험)  
-# ### 4. 환경(날씨, 재활용)  
+# ### 1. Politics and Law (Election, Government, Law, Prosecution, Murder)  
+# ### 2. Technology (Big Data, AI, Autonomous Driving, Virtual Reality, GPT, Robot)  
+# ### 3. Economy (Investment, Company, Wealthy, Stock, Unemployment, Insurance)  
+# ### 4. Environment (Weather, Recycling)  
 
-# # 1. 정치 및 법 (선거, 정부, 법, 검찰, 살인)
+# # 1. Politics and Law (Election, Government, Law, Prosecution, Murder)
 
-# # 대선
+# # Presidential Election
 
 # In[22]:
 
@@ -142,8 +142,8 @@ query = '대선'
 # In[23]:
 
 
-#일부 코드는 배민성 학우분과 협업하였습니다.
-#slack에 올려주신 이수인 학우분의 코드도 일부 참고하였습니다.
+# Some parts of the code were collaborated with fellow student Bae Min-sung.
+# The code shared by fellow student Lee Soo-in on Slack was also referenced.
 total_results = pd.DataFrame()
 for i in range(10):
     start=1+n_display*i
@@ -161,7 +161,7 @@ for i in range(10):
 total_results.reset_index(drop=True, inplace=True)
 
 
-# # 정부
+# # Government
 
 # In[15]:
 
@@ -190,7 +190,7 @@ for i in range(10):
 total_results2.reset_index(drop=True, inplace=True)
 
 
-# # 법
+# # Law
 
 # In[25]:
 
@@ -218,7 +218,7 @@ for i in range(10):
 total_results3.reset_index(drop=True, inplace=True)
 
 
-# # 검찰
+# # Prosecution
 
 # In[30]:
 
@@ -246,7 +246,7 @@ for i in range(10):
 total_results4.reset_index(drop=True, inplace=True)
 
 
-# # 살인
+# # Murder
 
 # In[35]:
 
@@ -274,9 +274,9 @@ for i in range(10):
 total_results5.reset_index(drop=True, inplace=True)
 
 
-# # 2. 기술 (빅데이터, AI, 자율주행, 가상현실, gpt, 로봇)
+# # 2. Technology (Big Data, AI, Autonomous Driving, Virtual Reality, gpt, Robot)
 
-# # 빅데이터
+# # Big Data
 
 # In[39]:
 
@@ -332,7 +332,7 @@ for i in range(10):
 total_results7.reset_index(drop=True, inplace=True)
 
 
-# # 자율주행
+# # Autonomous Driving
 
 # In[46]:
 
@@ -360,7 +360,7 @@ for i in range(10):
 total_results8.reset_index(drop=True, inplace=True)
 
 
-# # 가상현실
+# # Virtual Reality
 
 # In[50]:
 
@@ -410,7 +410,7 @@ for i in range(10):
     print(len(total_results10))
 
 
-# # 로봇
+# # Robot
 
 # In[90]:
 
@@ -438,9 +438,9 @@ for i in range(10):
 total_results11.reset_index(drop=True, inplace=True)
 
 
-# # 3. 경제 (투자, 기업, 부자, 주식, 실업, 보험)
+# # 3. Economy (Investment, Company, Wealthy, Stock, Unemployment, Insurance)
 
-# # 투자
+# # Investment
 
 # In[93]:
 
@@ -469,7 +469,7 @@ for i in range(10):
 total_results12.reset_index(drop=True, inplace=True)
 
 
-# # 기업
+# # Company
 
 # In[97]:
 
@@ -497,7 +497,7 @@ for i in range(10):
 total_results13.reset_index(drop=True, inplace=True)
 
 
-# # 부자
+# # Wealthy
 
 # In[100]:
 
@@ -525,7 +525,7 @@ for i in range(10):
 total_results14.reset_index(drop=True, inplace=True)
 
 
-# # 주식
+# # Stock
 
 # In[103]:
 
@@ -553,7 +553,7 @@ for i in range(10):
 total_results15.reset_index(drop=True, inplace=True)
 
 
-# # 실업
+# # Unemployment
 
 # In[116]:
 
@@ -593,11 +593,11 @@ middle= pd.concat([total_results, total_results2,total_results3,total_results4,
 # In[111]:
 
 
-# 데이터 수집 개수 중간 확인용
+# Check the number of data collected
 middle.shape
 
 
-# # 보험
+# # Insurance
 
 # In[119]:
 
@@ -641,9 +641,9 @@ middle= pd.concat([total_results, total_results2,total_results3,total_results4,
 middle.shape
 
 
-# # 4. 환경 (날씨, 재활용)
+# # 4. Environment (Weather, Recycling)
 
-# # 날씨
+# # Weather
 
 # In[129]:
 
@@ -671,7 +671,7 @@ for i in range(10):
 total_results18.reset_index(drop=True, inplace=True)
 
 
-# # 재활용
+# # Recycling
 
 # In[132]:
 
@@ -723,16 +723,16 @@ crawl.shape
 crawl.reset_index(drop=True, inplace=True)
 
 
-# ## <font color = 'red'> 2) Text data preprocessing
+# ## <font color = 'red'> 2) Text Data Preprocessing
 
-# ## <font color= red> 2-1) cleaning
+# ## <font color= red> 2-1) Cleaning
 
-# #### content가 0인 행들은 네이터 연예 뉴스로써, 연예 뉴스에 해당하는 기사들을 제거하기 위해 0으로 추가하고, 삭제
-# - 네이버 뉴스 기사들만 크롤링을 하고 싶어, dic_area에 해당하지 않는 기사 본문들은 0으로 content에 추가해주었습니다.  
-# - 추가적으로 continue를 사용해서 해당하지 않는 id는 넘어가게 하고 싶었지만 해결이 잘 되지 않았고, 이에 따라 dictionary 형태로 변환할 때 title은 나왔지만, id가 없는 기사이기에 content에 빈 값으로 나와 dataframe이 만들어지지 않는 문제가 발생했습니다.  
-# - 따라서 위와 같은 방식를 통해 0값으로 채우고 삭제하는 방향으로 전처리를 진행하였습니다.
+# #### Rows with content equal to 0 are Naver entertainment news, and to remove articles corresponding to entertainment news, they are added as 0 and deleted.
+# - To crawl only Naver news articles, articles with main text ids not corresponding to dic_area were added as 0 in the content.
+# - Additionally, I wanted to use continue to skip ids that do not correspond, but it did not work well, and as a result, when converting to a dictionary, the title appeared, but since it is an article without an id, the content was empty, causing an issue where the dataframe could not be created.
+# - Therefore, preprocessing was conducted in a way to fill with 0 and delete as described above.
 
-# ### content == 0 행 제거
+# ### Remove rows with content equal to 0
 
 # In[139]:
 
@@ -752,7 +752,7 @@ cl.head()
 cl.drop(cl.loc[cl['content']==0].index, inplace=True)
 
 
-# ## <font color=red> 2-2) 중복값 제거
+# ## <font color=red> 2-2) Remove Duplicates
 
 # In[142]:
 
@@ -778,7 +778,7 @@ cl[cl.duplicated(keep=False)]
 cl.shape
 
 
-# ## 1차 dataframe 저장
+# ## Save 1st DataFrame
 
 # In[149]:
 
@@ -786,7 +786,7 @@ cl.shape
 cl.to_csv('crawling_df.csv',index=False)
 
 
-# ## 데이터 불러오기
+# ## Load Data
 
 # In[2]:
 
@@ -800,7 +800,7 @@ df=pd.read_csv('crawling_df.csv')
 df1=df.copy()
 
 
-# ## <font color = red> 3) 1차 데이터 전처리 - 불용어, 어간 추출
+# ## <font color = red> 3) 1st Data Preprocessing - Stopwords, Stemming
 
 # In[5]:
 
@@ -824,23 +824,23 @@ df1.info()
 # In[7]:
 
 
-#교수님의 기존 stopwords.txt를 통해 1차적으로 불용어 제거 및 어간 추출 진행
+# Using the existing stopwords.txt from the professor, perform the first stopword removal and stemming
 def preprocess_korean(text):
     my_text=copy.copy(text)
-    #\n 제거
+    # Remove \n
     my_text = my_text.replace('\n','')
-    spacer= pykospacing.Spacing() #띄어쓰기 교정
+    spacer= pykospacing.Spacing() # Correct spacing
     my_text=spacer(my_text)
     sents=kss.split_sentences(my_text)
     
-    p=re.compile('[^ㄱ-ㅎㅏ-ㅣ가-힣]') #한글과 띄어쓰기를 제외한 모든 글자
+    p=re.compile('[^ㄱ-ㅎㅏ-ㅣ가-힣]') # All characters except Korean and spaces
     results=[]
     for sent in tqdm(sents):
         result=[]
-        tokens= okt.morphs(sent, stem=True) #어간추출
+        tokens= okt.morphs(sent, stem=True) # Stemming
         for token in tokens:
             token=p.sub('',token)
-            if token not in stopwords: #stopwords에 없는 애들만 추가해라
+            if token not in stopwords: # Add only those not in stopwords
                 result.append(token) 
         results.extend(result) 
     result= ' '.join(results)
@@ -851,7 +851,7 @@ def preprocess_korean(text):
 # In[8]:
 
 
-#대략 6일 정도 소요되었습니다
+# It took about 6 days
 df1['preprocessing_content']= df1['content'].apply(lambda x: preprocess_korean(x))
 
 
@@ -861,7 +861,7 @@ df1['preprocessing_content']= df1['content'].apply(lambda x: preprocess_korean(x
 df1.to_csv('텍데분전처리1단계끝.csv',index=False)
 
 
-# ## <font color= red> 4) 2차 불용어 제거 - 1차 전처리를 통해 나온 결과값들을 바탕으로 불용어 추가 수집
+# ## <font color= red> 4) 2nd Stopword Removal - Collect additional stopwords based on the results from the 1st preprocessing
 
 # In[227]:
 
@@ -875,7 +875,7 @@ df1=pd.read_csv('텍데분전처리1단계끝.csv')
 df=df1.copy()
 
 
-# ###  <font color = red> 4-1) 1단계에서 전처리한 후, 본문이 없는 기사 행 삭제
+# ###  <font color = red> 4-1) Delete rows with empty content after the 1st preprocessing
 
 # In[231]:
 
@@ -886,7 +886,7 @@ df.isnull().sum()
 # In[232]:
 
 
-#1차 전처리 후, 본문이 비어있는 행을 확인할 수 있음
+# After the 1st preprocessing, rows with empty content can be seen
 df.iloc[[161]]
 
 
@@ -914,7 +914,7 @@ df.isnull().sum()
 len(df)
 
 
-# ### <font color = red> 4-2) 1차 preprocessing 된 token들을 리스트에 저장하여 2차 불용어 처리 진행
+# ### <font color = red> 4-2) Save tokens from the 1st preprocessing into a list and perform the 2nd stopword removal
 
 # In[238]:
 
@@ -922,7 +922,7 @@ len(df)
 stopwords2= []
 for i in tqdm(range(len(df))): #0~10377
     for value in list(df.preprocessing_content[i].split(' ')): 
-        stopwords2.append(value) #값 추가 -> 10400개의 본문에 대한 토큰들을 stopwords2에 저장함
+        stopwords2.append(value) # Save tokens assigned to 10400 articles into stopwords2
 
 
 # In[239]:
@@ -935,14 +935,14 @@ imsi=imsi.rename(columns={0:'words'})
 # In[240]:
 
 
-#가장 많이 나온 불용어들을 뽑아서 새로운 불용어 리스트에 저장 (상위 30개 중, 조사 위주로)
+# Extract the most frequently occurring stopwords and save them into a new stopword list (mainly top 30 particles)
 word= pd.DataFrame(imsi['words'].value_counts()).head(30).index.tolist()
 
 
 # In[241]:
 
 
-# value_counts 값이 하나인 불용어들을 뽑아서 새로운 불용어 리스트에 저장 (하위 30개)
+# Extract stopwords with a value_counts of one and save them into a new stopword list (bottom 30)
 word2=pd.DataFrame(imsi['words'].value_counts()).tail(30).index.tolist()
 
 
@@ -955,9 +955,9 @@ stopwords2_total=word+word2
 # In[243]:
 
 
-# 조사 아닌 단어들 중,의미가 있을법한 단어는 불용어에서 제거함
+# Remove meaningful words from the stopwords list
 rm_set = {'대통령', '기업','기술','법','투자','서울'}
-# 리스트 컴프리헨션 활용: 삭제할 원소 집합 데이터와 일일이 비교
+# Use list comprehension to compare with the set of words to be deleted
 stopwords2_total = [i for i in stopwords2_total if i not in rm_set]
 print(stopwords2_total)
 
@@ -965,7 +965,7 @@ print(stopwords2_total)
 # In[244]:
 
 
-# 추가적으로 기사에 할당된 토큰들을 직접 찾아 보면서 (약 150개의 기사들을 예시로 찾아봄) 공통적으로 필요없는 불용어들을 리스트에 추가해줌
+# Additionally, while looking for common unnecessary stopwords in the tokens assigned to articles (about 150 articles were used as examples), add them to the list
 stopwords3= ['',' ', '기자','무단','앙카라','로이터','뉴스','금지','무단','뉴스','제보','저자','방송','화면','캡처','사진','방송화면',
             '연합뉴스','왼쪽부터','데일리안','현지','시각','시간','기사내용','뉴시스','뉴스데스크','카카오톡','기','다리다','이메일',
             '앵커','자료조사','영상편집','리포트','채널','네이버','유튜브','구독','카카오','톡','전화','추가','영상','디자인',
@@ -978,7 +978,7 @@ stopwords3= ['',' ', '기자','무단','앙카라','로이터','뉴스','금지'
 # In[245]:
 
 
-# 조사들을 추가한 불용어 이외에 추가로 직접 찾은 불용어와의 비교를 통해 없는 불용어 추가
+# Compare with the additional stopwords found and add any missing stopwords
 for i in stopwords3:
     if i not in stopwords2_total:
         stopwords2_total.append(i)
@@ -994,7 +994,7 @@ stopwords2_total=' '.join(stopwords2_total)
 
 
 #https://junjun-94.tistory.com/18
-#이 링크를 활용해 코드를 이해한 후, 함수로 변환하여 추가 불용어 처리 코드를 작성했습니다.
+# Using this link, I understood the code and converted it into a function to write the additional stopword processing code.
 def preprocess_korean2(example):
     stop_words = stopwords2_total
     stop_words = stop_words.split(' ')
@@ -1027,7 +1027,7 @@ df1=df.copy()
 # In[250]:
 
 
-# content에 내용이 없는 기사들 추가로 삭제
+# Delete articles with empty content
 df1.query('preprocessing_content2==""')
 
 
