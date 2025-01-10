@@ -29,20 +29,20 @@ df=df.iloc[:,1:]
 
 # # Topic 
 
-# ### 1. 정치 및 법(선거, 정부, 법, 검찰, 살인)  약4000개  
-# ### 2. 기술(빅데이터, AI, 자율주행, 가상현실, GPT, 로봇)  약 2800개
-# ### 3. 경제(투자, 기업, 부자, 주식, 실업, 보험)  약 3000개
-# ### 4. 환경(날씨, 재활용)  약 1000개
+# ### 1. Politics and Law (Election, Government, Law, Prosecution, Murder) about 4000 articles  
+# ### 2. Technology (Big Data, AI, Autonomous Driving, Virtual Reality, GPT, Robots) about 2800 articles
+# ### 3. Economy (Investment, Companies, Wealth, Stocks, Unemployment, Insurance) about 3000 articles
+# ### 4. Environment (Weather, Recycling) about 1000 articles
 
 # #  <font color= red> 1. WordCloud
 
-# ## <font color= green> 1) 정치 및 법 (선거, 정부, 법, 검찰, 살인) 약 4000개
+# ## <font color= green> 1) Politics and Law (Election, Government, Law, Prosecution, Murder) about 4000 articles
 # 
 
 # In[33]:
 
 
-#슬라이싱의 경우, 토픽별 기사 개수를 활용해 다음 토픽과의 경계 인덱스를 직접 찾아주었습니다
+# For slicing, the number of articles per topic was used to find the boundary index with the next topic.
 politics= df.iloc[:3848,:].reset_index(drop=True)
 
 
@@ -50,7 +50,7 @@ politics= df.iloc[:3848,:].reset_index(drop=True)
 
 
 all_data = ''
-for _, row in politics.iterrows(): #행의 정보를 담은 객체
+for _, row in politics.iterrows(): # Object containing row information
     all_data += row['preprocessing_content2']
 
 
@@ -65,7 +65,7 @@ all_data
 
 #https://seaborn.pydata.org/generated/seaborn.color_palette.html
 #https://wannabe00.tistory.com/entry/Word-cloud-%EC%9B%90%ED%95%98%EB%8A%94-%EC%83%89%EC%9C%BC%EB%A1%9C-%EA%BE%B8%EB%AF%B8%EA%B8%B0-word-cloud-customize-color
-#위의 사이트들을 참고하여 교수님코드와 위의 워드 클라우드 시각화를 추가하여 진행했습니다.
+# The above sites were referenced to add to the professor's code and visualize the word cloud.
 
 
 # In[38]:
@@ -87,10 +87,10 @@ fig = plt.figure(figsize=(10, 10))
 plt.imshow(arr1)
 plt.axis('off')
 plt.show()
-fig.savefig('politics.png') #생성한 그림 저장하기
+fig.savefig('politics.png') # Save the generated image
 
 
-# ## <font color = green> 2) 기술 (빅데이터, AI, 자율주행, 가상현실, GPT) 약 2800개
+# ## <font color = green> 2) Technology (Big Data, AI, Autonomous Driving, Virtual Reality, GPT) about 2800 articles
 
 # In[39]:
 
@@ -102,7 +102,7 @@ tech= df.iloc[3848:6458,:].reset_index(drop=True)
 
 
 all_data = ''
-for _, row in tech.iterrows(): #행의 정보를 담은 객체
+for _, row in tech.iterrows(): # Object containing row information
     all_data += row['preprocessing_content2']
 
 
@@ -125,10 +125,10 @@ fig = plt.figure(figsize=(10, 10))
 plt.imshow(arr1)
 plt.axis('off')
 plt.show()
-fig.savefig('tech.png') #생성한 그림 저장하기
+fig.savefig('tech.png') # Save the generated image
 
 
-# ## <font color  =green> 3) 경제 (투자, 기업, 부자, 주식, 실업, 보험) 약 3000개
+# ## <font color  =green> 3) Economy (Investment, Companies, Wealth, Stocks, Unemployment, Insurance) about 3000 articles
 
 # In[42]:
 
@@ -140,7 +140,7 @@ money=df.iloc[6458:9375,:].reset_index(drop=True)
 
 
 all_data = ''
-for _, row in money.iterrows(): #행의 정보를 담은 객체
+for _, row in money.iterrows(): # Object containing row information
     all_data += row['preprocessing_content2']
 
 
@@ -163,10 +163,10 @@ fig = plt.figure(figsize=(10, 10))
 plt.imshow(arr1)
 plt.axis('off')
 plt.show()
-fig.savefig('money.png') #생성한 그림 저장하기
+fig.savefig('money.png') # Save the generated image
 
 
-# ## <font color = green> 4) 환경 (날씨, 재활용)  약 1000개
+# ## <font color = green> 4) Environment (Weather, Recycling) about 1000 articles
 
 # In[45]:
 
@@ -178,7 +178,7 @@ env=df.iloc[9375:,:].reset_index(drop=True)
 
 
 all_data = ''
-for _, row in env.iterrows(): #행의 정보를 담은 객체
+for _, row in env.iterrows(): # Object containing row information
     all_data += row['preprocessing_content2']
 
 
@@ -201,7 +201,7 @@ fig = plt.figure(figsize=(10, 10))
 plt.imshow(arr1)
 plt.axis('off')
 plt.show()
-fig.savefig('env.png') #생성한 그림 저장하기
+fig.savefig('env.png') # Save the generated image
 
 
 # # <font color= red> 2. Topic Modeling
@@ -209,11 +209,11 @@ fig.savefig('env.png') #생성한 그림 저장하기
 # In[15]:
 
 
-# LDA를 위해서는 리스트 형태로 바꿔주어야 한다
+# For LDA, it needs to be converted to a list format
 df['preprocessing_content2'] = df['preprocessing_content2'].apply(lambda x: x.split())
 
 
-# In[16]:
+# In[16]
 
 
 word_dict = corpora.Dictionary(df['preprocessing_content2'])
@@ -231,7 +231,7 @@ corpus = [word_dict.doc2bow(text) for text in df['preprocessing_content2']]
 len(word_dict)
 
 
-# ## <font color = red> 2-1) topic 수: 4  -> 처음에 세웠던 토픽 4개(정치, 기술, 경제, 환경)로 토픽 모델링이 잘 될까? 를 확인해봄
+# ## <font color = red> 2-1) Number of topics: 4 -> Check if topic modeling works well with the initial 4 topics (Politics, Technology, Economy, Environment)
 
 # In[19]:
 
@@ -252,7 +252,7 @@ vis = pyLDAvis.gensim_models.prepare(ldamodel, corpus, word_dict)
 pyLDAvis.display(vis)
 
 
-# ## <font color= red>  2-2) topic 수 : 19  -> 세분화한 topic으로 더 잘 나눌 수 있는지 보기 위해 19개로 선정
+# ## <font color= red>  2-2) Number of topics: 19 -> Check if more detailed topic modeling is possible with 19 topics
 
 # In[21]:
 
